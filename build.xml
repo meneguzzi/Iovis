@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     18 Dec 2007 14:17:54                                                        
+
+     Iovis    
+     Build file for the Normative AgentSpeak(L) project
+                   
+     Clarissa                                                                
+     ====================================================================== -->
+<project name="Iovis" default="run">
+	<description>
+            Build file for the Normative AgentSpeak(L) project
+    </description>
+
+	<property name="workspace.location" value="${user.home}/workspace" />
+	<property name="jasonJar" value="${workspace.location}/JasonSVN/build" />
+
+	<path id="project.classpath">
+		<!-- pathelement location="."/> -->
+		<pathelement path="${jasonJar}" />
+		<pathelement path="${workspace.location}/Kastor/bin" />
+		<pathelement path="${workspace.location}/Iovis/bin" />
+		<pathelement location="${workspace.location}/Peleus/bin" />
+		<pathelement location="${workspace.location}/JasonEnvironment/bin" />
+		<pathelement location="${workspace.location}/JavaGP/bin" />
+		<pathelement location="${workspace.location}/Peleus/lib/jemplan.jar" />
+	</path>
+
+	<path id="library.path">
+		<pathelement location="${workspace.location}/Peleus/lib" />
+	</path>
+
+	<!-- ================================= 
+          target: run              
+         ================================= -->
+	<target name="run" depends="init" description="--> Build file for the Normative AgentSpeak(L) project">
+		<property name="project.file" value="Iovis.mas2j" />
+		<java dir="bin/org/kcl/iovis" classname="jason.infra.centralised.RunCentralisedMAS" failonerror="true" fork="yes">
+			<classpath refid="project.classpath" />
+			<jvmarg line="-Djava.library.path='${workspace.location}/Peleus/lib'" />
+			<arg line="${project.file} ${debug}" />
+		</java>
+	</target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: init                      
+         - - - - - - - - - - - - - - - - - -->
+	<target name="init">
+	</target>
+
+</project>

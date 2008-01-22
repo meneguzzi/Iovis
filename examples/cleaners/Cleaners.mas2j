@@ -1,0 +1,10 @@
+/* Jason Project */
+
+MAS iovis {
+	environment: 
+         org.kcl.jason.env.scripted.ScriptedEnvironment("script.xml",act)
+
+	agents: 
+		cleaner;
+		trustedCleaner;
+}
