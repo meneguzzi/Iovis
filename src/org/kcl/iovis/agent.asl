@@ -29,6 +29,14 @@
 
 +!testList : true
 	<- .print("List does not unify").
+
+
++test6 : true
+	<- .print("Getting plan library");
+	   org.kcl.iovis.reflect.plan_library(Plans);
+	   .print(Plans);
+	   true.
+
 @plan1
 +!declarativePlan : precond1 & precond2
 	<- +effect1;

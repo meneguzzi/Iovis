@@ -28,6 +28,10 @@
 		test5.
 	</step>
 	
+	<step time="6">
+		test6.
+	</step>
+	
 	<step time="13">
 		endSimulation.
 	</step>
