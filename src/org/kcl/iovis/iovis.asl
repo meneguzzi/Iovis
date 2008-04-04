@@ -92,7 +92,7 @@
 	 !suppressPlans(SelectedPlans);
 	 +suppressedPlans(SelectedPlans).
 
-@prohibitionEnd(Obligation)
+@prohibitionEnd(Prohibition)
 +!End : suppressedPlans(SelectedPlans)
   <- !unsuppressPlans(SelectedPlans);
      .remove_plan(prohibitionStart(Prohibition));
@@ -123,7 +123,7 @@
 	 !suppressPlans(SelectedPlans);
 	 +suppressedPlans(SelectedPlans).
 
-@prohibitionEnd(Obligation)
+@prohibitionEnd(Prohibition)
 +!End : suppressedPlans(SelectedPlans)
   <- !unsuppressPlans(SelectedPlans);
      .remove_plan(prohibitionStart(Prohibition));
