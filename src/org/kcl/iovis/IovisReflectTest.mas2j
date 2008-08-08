@@ -1,9 +1,9 @@
 /* Jason Project */
 
-MAS iovis {
+MAS iovisreflecttest {
 	environment: 
          org.kcl.jason.env.scripted.ScriptedEnvironment("script.xml",act)
 
 	agents: 
-		agent;
+		reflectAgent;
 }

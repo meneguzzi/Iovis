@@ -35,7 +35,7 @@ public class contains extends DefaultInternalAction {
 		//Iterate over the list to see if it contains the specified
 		//element
 		for(Term t : list) {
-			if(un.unifies(t, element)) {
+			if(!t.isVar() && un.unifies(t, element)) {
 				return true;
 			}
 		}

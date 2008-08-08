@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/JasonEnvironment"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/JasonSVN"/>
+	<classpathentry kind="lib" path="lib/jason.jar"/>
+	<classpathentry kind="lib" path="lib/jasonenv.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

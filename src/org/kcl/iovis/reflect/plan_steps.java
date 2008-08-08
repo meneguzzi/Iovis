@@ -49,6 +49,8 @@ public class plan_steps extends DefaultInternalAction {
 		ListTerm stepListTerm = new ListTermImpl();
 		
 		for (BodyLiteral bodyLiteral : body) {
+			if(bodyLiteral.getLiteralFormula() == null)
+				continue;
 			Literal literal = (Literal) bodyLiteral.getLiteralFormula().clone();
 			stepListTerm.add(literal);
 		}
