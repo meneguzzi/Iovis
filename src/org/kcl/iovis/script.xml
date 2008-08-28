@@ -45,6 +45,14 @@
 		test9.
 	</step>
 	
+	<step time="10">
+		test10.
+	</step>
+	
+	<step time="11">
+		test11.
+	</step>
+	
 	<step time="13">
 		endSimulation.
 	</step>

@@ -94,6 +94,19 @@ ignoreNorms.
       org.kcl.iovis.reflect.plan_library(Plans);
       !findPlansWithAction(.print(X), Plans, SelectedPlans);
       !print("Plans with action: ", SelectedPlans).
+      
++test10 : true
+   <- !print("Testing .puts internal action");
+       X = ex;
+       Yey = "works";
+       act.puts("Testing variable X is #{X} and that variable Yey is #{Yey} and works").
+
++test11 : true
+   <- !print("Testing .puts internal action");
+       X = ex;
+       Yey = "works";
+       act.puts("Testing variable X is #{X} ",
+                "and that variable Yey is #{Yey} and works").
 
 @plan1
 +!declarativePlan : precond1 & precond2
