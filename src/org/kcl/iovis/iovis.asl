@@ -43,9 +43,9 @@ logging(true).
 //The obligation is not yet true, so I should add the plan to react to it
 +!addActionObligationStartCondition(Start, Obligation, Options) : not Start
    <- !print("Adding plan for start of obligation to ", Obligation);
-      act.puts("@obligationStart(#{Obligation}) ",
-               "+#{Start} : true <- #{Obligation}.",
-               OPlan);
+      act.plan_puts("@obligationStart(#{Obligation}) ",
+                    "+#{Start} : true <- #{Obligation}.",
+                    OPlan);
       .add_plan(OPlan).
 
 
@@ -64,11 +64,12 @@ logging(true).
 //The end condition is not yet true, so we should add a plan to handle this
 +!addActionObligationEndCondition(End, Obligation, Options) : not End
    <- !print("Adding plan for end of obligation to ", Obligation);
-      act.puts("@obligationEnd(#{Obligation}) ",
-               "+#{End} : true <- .print(\"Removing plan\");",
-               ".remove_plan(obligationStart(#{Obligation}));",
-               ".remove_plan(obligationEnd(#{Obligation})).",
-               EPlan);
+      Message = "Removing Plan";//Workaround for weird string manipulation
+      act.plan_puts("@obligationEnd(#{Obligation}) ",
+                    "+#{End} : true <- .print(#{Message});",
+                    ".remove_plan(obligationStart(#{Obligation}));",
+                    ".remove_plan(obligationEnd(#{Obligation})).",
+                    EPlan);
       .add_plan(EPlan).
 /*---------------------------------------------------------
 // How the plans should look
@@ -103,10 +104,10 @@ logging(true).
    
 +!addLiteralObligationStartCondition(Start, Obligation, Options) : not Start
    <- !print("Adding plan for start of obligation to ", Obligation);
-      act.puts("@obligationStart(#{Obligation})",
-               "+#{Start} : not #{Obligation}",
-               " <- !goalConj([#{Obligation}]).",
-               OPlan);
+      act.plan_puts("@obligationStart(#{Obligation})",
+                    "+#{Start} : not #{Obligation}",
+                    " <- !goalConj([#{Obligation}]).",
+                    OPlan);
       .add_plan(OPlan).
 
 //End conditions
@@ -118,11 +119,11 @@ logging(true).
 
 +!addLiteralObligationEndCondition(End, Obligation, Options) : not End
    <- !print("Adding plan for end of obligation to ", Obligation);
-      act.puts("@obligationEnd(#{Obligation})",
-               "+#{End} : true <- ",
-               "remove_plan(@obligationStart(#{Obligation}));",
-               ".remove_plan(@obligationEnd(#{Obligation})).",
-               EPlan);
+      act.plan_puts("@obligationEnd(#{Obligation})",
+                    "+#{End} : true <- ",
+                    "remove_plan(@obligationStart(#{Obligation}));",
+                    ".remove_plan(@obligationEnd(#{Obligation})).",
+                    EPlan);
       .add_plan(EPlan).
 
 /*---------------------------------------------------------
@@ -142,18 +143,18 @@ logging(true).
 //Action Prohibition
 +!processNorm(Start, End, prohibition(Prohibition), Options) 
 	: org.kcl.iovis.reflect.action(Prohibition)
-	<- act.puts("@prohibitionStart(#{Prohibition})",
-	            "+#{Start} : true <- ",
-	            "!findPlansWithAction(#{Prohibition},SelectedPlans);",
-	            "!suppressPlans(SelectedPlans);",
-	            "+suppressedPlans(SelectedPlans).",
-	            OPlan);
-	   act.puts("@prohibitionEnd(#{Prohibition})",
-	            "+#{Start} : suppressedPlans(SelectedPlans) <- ",
-	            "!unsuppressPlans(SelectedPlans);",
-	            ".remove_plan(prohibitionStart(#{Prohibition}));",
-	            ".remove_plan(prohibitionEnd(#{Prohibition})).",
-	            EPlan);
+	<- act.plan_puts("@prohibitionStart(#{Prohibition})",
+	                 "+#{Start} : true <- ",
+	                 "!findPlansWithAction(#{Prohibition},SelectedPlans);",
+	                 "!suppressPlans(SelectedPlans);",
+	                 "+suppressedPlans(SelectedPlans).",
+	                 OPlan);
+	   act.plan_puts("@prohibitionEnd(#{Prohibition})",
+	                 "+#{Start} : suppressedPlans(SelectedPlans) <- ",
+	                 "!unsuppressPlans(SelectedPlans);",
+	                 ".remove_plan(prohibitionStart(#{Prohibition}));",
+	                 ".remove_plan(prohibitionEnd(#{Prohibition})).",
+	                 EPlan);
 	   .add_plan([OPlan,EPlan]);
        .print("Norm ",prohibition(Prohibition)," added").
 
@@ -175,17 +176,17 @@ logging(true).
 //Proposition Prohibition
 +!processNorm(Start, End, prohibition(Prohibition), Options) 
 	: .literal(Prohibition)
-	<- act.puts("@prohibitionStart(#{Prohibition})",
-	            "+#{Start} : true <- ",
-	            "!findPlansWithEffect(#{Prohibition},SelectedPlans);",
-	            "!suppressPlans(SelectedPlans);",
-	            "+suppressedPlans(SelectedPlans).",
-	            OPlan);
-	   act.puts("@prohibitionEnd(#{Prohibition})",
-	            "+#{End} : suppressedPlans(SelectedPlans) <- ",
-	            ".remove_plan(prohibitionStart(#{Prohibition}));",
-	            ".remove_plan(prohibitionEnd(#{Prohibition})).",
-	            EPlan);
+	<- act.plan_puts("@prohibitionStart(#{Prohibition})",
+	                 "+#{Start} : true <- ",
+	                 "!findPlansWithEffect(#{Prohibition},SelectedPlans);",
+	                 "!suppressPlans(SelectedPlans);",
+	                 "+suppressedPlans(SelectedPlans).",
+	                 OPlan);
+	   act.plan_puts("@prohibitionEnd(#{Prohibition})",
+	                 "+#{End} : suppressedPlans(SelectedPlans) <- ",
+	                 ".remove_plan(prohibitionStart(#{Prohibition}));",
+	                 ".remove_plan(prohibitionEnd(#{Prohibition})).",
+	                 EPlan);
 	   .add_plan([OPlan,EPlan]);
        .print("Norm ",prohibition(Prohibition)," added").
 

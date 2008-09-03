@@ -12,55 +12,18 @@ import jason.asSyntax.StringTerm;
 import jason.asSyntax.StringTermImpl;
 import jason.asSyntax.Term;
 import jason.asSyntax.VarTerm;
-
 /**
- * <p>
- * Internal action: <b><code>.puts</code></b>.
- * 
- * <p>
- * Description: used for printing messages to the console where the system is
- * running, or unifying the message to a variable parameter. It receives one
- * string parameter, containing escaped variable names that are replaced by
- * their bindings in the current intention's unifier. Terms are made ground
- * according to the current unifying function before being printed out. No new
- * line is printed after the parameters.
- * 
- * <p>
- * The precise format and output device of the message is defined by the Java
- * logging configuration as defined in the <code>logging.properties</code>
- * file in the project directory.
- * 
- * <p>
- * Parameters:
- * <ul>
- * 
- * <li>+message (string): the string to be printed out.</li>
- * <li>-output (any variable [optional]): the variable to print the processed
- * result.</li>
- * 
- * </ul>
- * 
- * <p>
- * Example:
- * <ul>
- * 
- * <li> <code>.puts("Testing variable #{A}")</code>: prints out to the
- * console the supplied string replacing #{A} with the value of variable A.</li>
- * 
- * </ul>
- * 
- * @see act.puts
- * @author Felipe Meneguzzi (http://www.meneguzzi.eu/felipe)
- * 
+ * A variant of puts for plan creation, which escapes quotation marks.
+ * @author meneguzz
+ *
  */
-
-public class puts extends DefaultInternalAction {
-
+public class plan_puts extends DefaultInternalAction {
+	
 	private static InternalAction singleton = null;
 
 	public static InternalAction create() {
 		if (singleton == null)
-			singleton = new puts();
+			singleton = new plan_puts();
 		return singleton;
 	}
 
@@ -104,7 +67,7 @@ public class puts extends DefaultInternalAction {
 		}
 
 		if (args[args.length - 1].isVar()) {
-			StringTerm stRes = new StringTermImpl(sb.toString());
+			StringTerm stRes = new StringTermImpl(escapeStrings(sb.toString()));
 			VarTerm var = (VarTerm) args[args.length - 1];
 			if (un.unifies(stRes, var)) {
 				return var.apply(un);
@@ -115,5 +78,17 @@ public class puts extends DefaultInternalAction {
 			ts.getLogger().info(sb.toString());
 			return true;
 		}
+	}
+	
+	protected String escapeStrings(String planString) {
+		//System.out.println("Escaping string: "+planString);
+		int index = planString.indexOf("\"");
+		while (index != -1) {
+			planString = planString.substring(0, index) + "\\\""
+					+ planString.substring(index + 1);
+			index = planString.indexOf("\"", index + 2);
+		}
+		//System.out.println("Escaped string: "+planString);
+		return planString;
 	}
 }

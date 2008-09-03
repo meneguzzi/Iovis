@@ -6,7 +6,7 @@
 <script>
 	<step time="0">
 		//Testing obligations
-		norm(print(X), nprint(X), obligation(.print(b)), []).
+		norm(print(X), nprint(X), obligation(.print("Printing obligation")), []).
 	</step>
 	
 	<step time="2">
