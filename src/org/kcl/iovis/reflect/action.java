@@ -43,7 +43,7 @@ public class action extends DefaultInternalAction {
 		InternalAction ia = null;
 		
 		try {
-			ia = ts.getAg().getIA(action);
+			ia = ts.getAg().getIA(action.toString());
 		} catch (Exception e) {
 			logger.fine(e.toString());
 			return false;

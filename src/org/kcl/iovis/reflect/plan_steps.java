@@ -12,6 +12,7 @@ import jason.asSyntax.ListTerm;
 import jason.asSyntax.ListTermImpl;
 import jason.asSyntax.Literal;
 import jason.asSyntax.Plan;
+import jason.asSyntax.PlanBody;
 import jason.asSyntax.StringTerm;
 import jason.asSyntax.Term;
 import jason.asSyntax.parser.as2j;
@@ -44,15 +45,14 @@ public class plan_steps extends DefaultInternalAction {
 		StringReader reader = new StringReader(planString.getString());
 		as2j parser = new as2j(reader);
 		Plan plan = parser.plan();
-		List<BodyLiteral> body = plan.getBody();
 		
 		ListTerm stepListTerm = new ListTermImpl();
 		
-		for (BodyLiteral bodyLiteral : body) {
-			if(bodyLiteral.getLiteralFormula() == null)
+		for (PlanBody body = plan.getBody(); body != null; body = body.getBodyNext()) {
+			if(body.getBodyTerm() == null)
 				continue;
-			Literal literal = (Literal) bodyLiteral.getLiteralFormula().clone();
-			stepListTerm.add(literal);
+			Term term = body.getBodyTerm().clone();
+			stepListTerm.add(term);
 		}
 		
 		if(un.unifies(steps, stepListTerm)) {

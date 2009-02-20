@@ -3,17 +3,18 @@ package org.kcl.iovis.reflect;
 import jason.asSemantics.DefaultInternalAction;
 import jason.asSemantics.TransitionSystem;
 import jason.asSemantics.Unifier;
-import jason.asSyntax.BodyLiteral;
 import jason.asSyntax.ListTerm;
 import jason.asSyntax.ListTermImpl;
 import jason.asSyntax.Literal;
+import jason.asSyntax.LiteralImpl;
 import jason.asSyntax.Plan;
+import jason.asSyntax.PlanBody;
 import jason.asSyntax.StringTerm;
 import jason.asSyntax.Term;
+import jason.asSyntax.PlanBody.BodyType;
 import jason.asSyntax.parser.as2j;
 
 import java.io.StringReader;
-import java.util.List;
 
 /**
 <p>Internal action: <b><code>.plan_consequences</code></b>.
@@ -46,22 +47,22 @@ public class plan_consequences extends DefaultInternalAction {
 		Plan plan = parser.plan();
 		
 		//Then we try to extract belief the effects from the plan body
-		List<BodyLiteral> body = plan.getBody();
+		
 		ListTerm consequences = new ListTermImpl();
 		
-		for (BodyLiteral literal : body) {
+		for (PlanBody body = plan.getBody(); body != null; body = body.getBodyNext()) {
 			Literal lit = null;
-			if(literal.getType() == BodyLiteral.BodyType.delBel) {
+			if(body.getBodyType() == BodyType.delBel) {
 				// XXX We were having problems with the variables using this method of instantiation
 				//proposition = new PropositionImpl(false, literal.getLiteralFormula().toString());
 				// XXX So we changed it to this mode
-				lit = new Literal(literal.getLiteralFormula());
+				lit = new LiteralImpl(body.getBodyTerm().toString());
 				lit.setNegated(Literal.LNeg);
-			} else if(literal.getType() == BodyLiteral.BodyType.addBel) {
+			} else if(body.getBodyType() == BodyType.addBel) {
 				// XXX We were having problems with the variables using this method of instantiation
 				//proposition = new PropositionImpl(true, literal.getLiteralFormula().toString());
 				// XXX So we changed it to this mode
-				lit = new Literal(literal.getLiteralFormula());
+				lit = new LiteralImpl(body.getBodyTerm().toString());
 			}
 			
 			//If proposition is null, this is a part of the plan we can't cope, 

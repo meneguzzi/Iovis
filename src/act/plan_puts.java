@@ -14,7 +14,8 @@ import jason.asSyntax.Term;
 import jason.asSyntax.VarTerm;
 /**
  * A variant of puts for plan creation, which escapes quotation marks.
- * @author meneguzz
+ * @see act.puts
+ * @author Felipe Meneguzzi (http://www.meneguzzi.eu/felipe)
  *
  */
 public class plan_puts extends DefaultInternalAction {
