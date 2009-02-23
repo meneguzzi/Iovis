@@ -10,7 +10,6 @@ import jason.asSyntax.StringTermImpl;
 import jason.asSyntax.Term;
 import jason.asSyntax.parser.ParseException;
 
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -49,6 +48,12 @@ import java.util.regex.Pattern;
  * 
  * <li> <code>.puts("Testing variable #{A}")</code>: prints out to the
  * console the supplied string replacing #{A} with the value of variable A.</li>
+ * <li> <code>.puts("Testing variable #{A}, into B", B)</code>: tries to unify 
+ * B with the supplied string replacing #{A} with the value of variable A.</li>
+ * <li> <code>.puts("The value of the expression is #{X+2}")</code>: prints out
+ * the result of the X+2 expression. Assuming X is unified to a numeric value,
+ * the printed result will be the sum of X and two, if X is unified to any 
+ * other value, the original expression (X+2) will be printed.</li> 
  * 
  * </ul>
  * 
@@ -57,9 +62,12 @@ import java.util.regex.Pattern;
  * 
  */
 
-@SuppressWarnings("serial")
 public class puts extends DefaultInternalAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static InternalAction singleton = null;
 
 	public static InternalAction create() {
@@ -86,8 +94,6 @@ public class puts extends DefaultInternalAction {
 			StringTerm st = (StringTerm) term;
 			Matcher matcher = regex.matcher(st.getString());
 
-			ArrayList<Term> alVariables = new ArrayList<Term>();
-
 			while (matcher.find()) {
 				/*
 				 * System.out.println("I found the text \""+matcher.group()+ "\"
@@ -98,23 +104,17 @@ public class puts extends DefaultInternalAction {
 				sVar = sVar.substring(2, sVar.length() - 1);
 				try {
 					Term t = ASSyntax.parseTerm(sVar);
+					//We use t.apply to evaluate any logical or arithmetic expression in Jason
 					t.apply(un);
-					alVariables.add(t);
+					matcher.appendReplacement(sb, t.toString());
 				} catch (ParseException pe) {
 					// TODO: handle exception
 					// TODO: Decide whether or not we should ignore the exception and print the call instead
 					// Right now, if I get a parse error from ASSyntax, I just print the original escaped
 					// sequence, so a user can see that his/her expression was problematic
-					alVariables.add(new StringTermImpl("#{"+sVar+"}"));
+					matcher.appendReplacement(sb, "#{"+sVar+"}");
 				}
 				
-			}
-
-			matcher.reset();
-
-			while (matcher.find()) {
-				Term t = alVariables.remove(0);
-				matcher.appendReplacement(sb, t.toString());
 			}
 			matcher.appendTail(sb);
 		}
