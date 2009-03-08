@@ -2,8 +2,8 @@
 
 MAS iovis {
 	infrastructure: Centralised
-	//environment: 
-         //org.kcl.jason.env.scripted.ScriptedEnvironment("script.xml",act)
+	environment: 
+         org.kcl.jason.env.scripted.ScriptedEnvironment("script.xml",act)
 
 	agents: 
 		cleaner;
