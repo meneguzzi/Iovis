@@ -27,7 +27,7 @@
 	<property name="version" value="0.2" />
 	<property name="release" value="1" />
 	<property name="dist.properties" value="${basedir}/bin/dist.properties" />
-	<property name="dist.file" value="${basedir}/kastor-${version}.zip" />
+	<property name="dist.file" value="${basedir}/iovis-${version}.zip" />
 
 	<path id="project.classpath">
 		<pathelement path="${jasonJar}" />
