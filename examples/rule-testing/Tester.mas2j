@@ -1,0 +1,7 @@
+MAS tester {
+	environment: 
+         org.kcl.jason.env.scripted.ScriptedEnvironment("script.xml",act)
+
+	agents: 
+		lister;
+}

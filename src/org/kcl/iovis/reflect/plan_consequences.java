@@ -35,6 +35,11 @@ import java.io.StringReader;
 */
 public class plan_consequences extends DefaultInternalAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public Object execute(TransitionSystem ts, Unifier un, Term[] args)
 			throws Exception {

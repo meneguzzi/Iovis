@@ -1,0 +1,34 @@
+Iovis is an implementation of an AgentSpeak interpreter that includes a meta-
+level reasoning action library, and plans to process and comply to norms.
+With Iovis, a developer can deploy agents that change their plan libraries
+in reaction to norms from the environment, or from other agents.
+More on the operation of Iovis can be read in the following paper:
+
+MENEGUZZI, Felipe and LUCK, Michael Norm-based behaviour modification in BDI 
+agents. Proceedings of the 8th International Conference on Autonomous Agents 
+and Multiagent Systems (AAMAS), Budapest, Hungary, 2009.
+
+Available online at http://www.meneguzzi.eu/felipe/pubs/aamas-norms-2009.pdf
+
+In order to operate a normative system, one must include the actions from
+org.kcl.iovis.reflect in the Jason classpath (available in the library 
+iovis.jar), and include the source code from iovis.asl into the desired agent.
+
+An example of how norms are encoded and used throughout the software can be 
+found at examples/norms, which includes an agent whose plans are modified
+during the execution of the script normsScript.xml.
+
+Jason was created by Rafael H. Bordini, Jomi F. Hubner, et al.
+http://jason.sourceforge.net
+
+Peleus was created by Felipe Meneguzzi
+http://www.meneguzzi.eu/felipe/software.html#peleus
+
+JasonEnvironment was created by Felipe Meneguzzi
+http://www.meneguzzi.eu/felipe/software.html#jasonenv
+
+First release: April 2009.
+Jason is distributed under LGPL (see file LICENSE).
+
+Java 1.5 is required to run this application, it is available
+at http://java.sun.com.

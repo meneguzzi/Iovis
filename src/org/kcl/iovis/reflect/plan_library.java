@@ -12,6 +12,11 @@ import jason.asSyntax.StringTermImpl;
 import jason.asSyntax.Term;
 
 public class plan_library extends DefaultInternalAction {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public Object execute(TransitionSystem ts, Unifier un, Term[] args)
 			throws Exception {

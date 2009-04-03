@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- A script containing perception events to be posted at each "tick" from
+	the environment in the MotivationTestEnvironment class.
+	Time is assumed to start at 0, which is the moment the environment class
+	is instantiated. -->
+<script>
+	<step time="0">
+		//Testing obligations
+		norm(print(X), nprint(X), obligation(.print("Printing obligation")), []).
+	</step>
+	
+	<step time="2">
+		print(b).
+	</step>
+	
+	<step time="4">
+		nprint(b).
+	</step>
+	
+	<step time="6">
+		norm(achieveG1, stopAchieving, obligation(g1), []).
+	</step>
+	
+	<step time="8">
+		achieveG1.
+	</step>
+	
+	<step time="10">
+		stopAchieving.
+	</step>
+	
+	<!-- Inputs for testing prohibitions -->
+	
+	<step time="14" wipe="false">
+		//Testing prohibitions
+		norm(dontPrint, mayPrint, prohibition(.print(X)), []).
+	</step>
+	
+	<step time="16" wipe="false">
+		dontPrint.
+	</step>
+	
+	<!-- The next input is associated to a plan in "normAgent.asl", which has a trigger associated
+	     to the percept "create", which should not run since the agent is supposed to have accepted
+	     the prohibition in time 14, and activated it in time 16. -->
+	<step time="18" wipe="false">
+		print("forbidden message").
+	</step>
+	
+	<step time="20" wipe="false">
+		mayPrint.
+	</step>
+	
+	<step time="22" wipe="false">
+		print("allowed message").
+	</step>
+	
+	<step time="24">
+		//Testing prohibitions on states
+		norm(dontAchieve, mayAchieve, prohibition(g2), []).
+	</step>
+	
+	<step time="26">
+		dontAchieve.
+	</step>
+	
+	<step time="28">
+		achieve(g2).
+	</step>
+	
+	<step time="30">
+		mayAchieve.
+	</step>
+	
+	<step time="32" wipe="true">
+		achieve(g2).
+	</step>
+	
+	<step time="50">
+		endSimulation.
+	</step>
+</script>

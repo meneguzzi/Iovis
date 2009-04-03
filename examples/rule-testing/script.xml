@@ -5,24 +5,10 @@
 	is instantiated. -->
 <script>
 	<step time="0">
-		//Testing obligations
-		norm(print(X), nprint(X), obligation(.print("Printing obligation")), []).
+		test([a,b,c,ho,d,e,f,ho,g,ho,i,j,ho]).
 	</step>
 	
-	<step time="2">
-		print(b).
-	</step>
-	
-	<step time="4">
-		nprint(b).
-	</step>
-	
-	<step time="6">
-		//Testing prohibitions
-		norm(a, b, prohibition(.create_agent(A,B)), []).
-	</step>
-	
-	<step time="15">
+	<step time="13">
 		endSimulation.
 	</step>
 </script>

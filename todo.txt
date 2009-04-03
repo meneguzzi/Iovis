@@ -1,0 +1,8 @@
+AgentSpeak Actions
+------------------
+* Proper documentation of the software is highly desirable.
+
+* Need to create a demo for AAMAS 2009.
+
+* JUnit tests are not complete, and should be completed for a thorough 
+  validation of the implementation.

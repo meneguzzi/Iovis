@@ -7,7 +7,7 @@
                    
      Clarissa                                                                
      ====================================================================== -->
-<project name="Iovis" default="run">
+<project name="Iovis" default="jar">
 	<description>
             Build file for the Normative AgentSpeak(L) project
     </description>
@@ -18,23 +18,25 @@
 	<property name="jasonJar" value="${basedir}/lib/jason.jar" />
 	<property name="jasonEnvJar" value="${basedir}/lib/jasonenv.jar" />
 	<property name="peleusJar" value="${basedir}/lib/peleus.jar" />
-	<property name="javagpJar" value="${basedir}/lib/javagp.jar"/>
-	<property name="emplanDll" value="${basedir}/lib/emplan.dll"/>
+	<property name="javagpJar" value="${basedir}/lib/javagp.jar" />
+	<property name="emplanDll" value="${basedir}/lib/emplan.dll" />
+	<property name="jemplanJar" value="${basedir}/lib/jemplan.jar" />
 
 
 
-	<property name="dist.properties" value="${basedir}/bin/dist.properties" />
-	<property name="version" value="0.1" />
+	<property name="version" value="0.2" />
 	<property name="release" value="1" />
+	<property name="dist.properties" value="${basedir}/bin/dist.properties" />
+	<property name="dist.file" value="${basedir}/kastor-${version}.zip" />
 
 	<path id="project.classpath">
 		<pathelement path="${jasonJar}" />
 		<pathelement path="${jasonEnvJar}" />
-		<pathelement path="${workspace.location}/Iovis/bin" />
-		<pathelement location="${workspace.location}/Peleus/bin" />
-		<pathelement location="${workspace.location}/JasonEnvironment/bin" />
-		<pathelement location="${workspace.location}/JavaGP/bin" />
-		<pathelement location="${workspace.location}/Peleus/lib/jemplan.jar" />
+		<pathelement path="${build.dir}" />
+		<pathelement path="${peleusJar}" />
+		<pathelement path="${jasonEnvJar}" />
+		<pathelement path="${javagpJar}" />
+		<pathelement path="${jemplanJar}" />
 	</path>
 
 	<path id="library.path">
@@ -45,12 +47,27 @@
           target: run              
          ================================= -->
 	<target name="run" depends="init" description="--> Build file for the Normative AgentSpeak(L) project">
-		<property name="project.file" value="Iovis.mas2j" />
-		<java dir="bin/org/kcl/iovis" classname="jason.infra.centralised.RunCentralisedMAS" failonerror="true" fork="yes">
+		<property name="project.file" value="IovisNormTest.mas2j" />
+		<java dir="examples/norms" classname="jason.infra.centralised.RunCentralisedMAS" failonerror="true" fork="yes">
 			<classpath refid="project.classpath" />
-			<jvmarg line="-Djava.library.path='${workspace.location}/Peleus/lib'" />
+			<jvmarg line="-Djava.library.path='${library.path}'" />
 			<arg line="${project.file} ${debug}" />
 		</java>
+	</target>
+
+	<!-- ================================= 
+		  target: dist              
+		 ================================= -->
+	<target name="dist" depends="jar,clean" description="Creates a zip for distribution">
+		<delete file="${dist.file}"/>
+		<zip destfile="${dist.file}">
+			<fileset dir="${basedir}">
+				<include name="**/*" />
+				<exclude name=".svn*" />
+				<exclude name="${build.dir}" />
+			</fileset>
+
+		</zip>
 	</target>
 
 	<!-- ================================= 

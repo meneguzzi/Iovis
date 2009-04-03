@@ -23,6 +23,11 @@ import jason.asSyntax.Term;
 */
 public class contains extends DefaultInternalAction {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public Object execute(TransitionSystem ts, Unifier un, Term[] args)
 			throws Exception {

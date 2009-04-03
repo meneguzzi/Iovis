@@ -30,6 +30,10 @@ import jason.asSyntax.Term;
  * 
  */
 public class action extends DefaultInternalAction {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static final Logger logger = Logger.getLogger(DefaultInternalAction.class.getName());
 	@Override
 	public Object execute(TransitionSystem ts, Unifier un, Term[] args)
@@ -43,7 +47,7 @@ public class action extends DefaultInternalAction {
 		InternalAction ia = null;
 		
 		try {
-			ia = ts.getAg().getIA(action.toString());
+			ia = ts.getAg().getIA(action.getFunctor());
 		} catch (Exception e) {
 			logger.fine(e.toString());
 			return false;

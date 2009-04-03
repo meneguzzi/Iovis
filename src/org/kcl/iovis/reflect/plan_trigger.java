@@ -29,6 +29,11 @@ import java.io.StringReader;
 */
 public class plan_trigger extends DefaultInternalAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public Object execute(TransitionSystem ts, Unifier un, Term[] args)
 			throws Exception {
@@ -38,7 +43,7 @@ public class plan_trigger extends DefaultInternalAction {
 		StringReader reader = new StringReader(planString.getString());
 		as2j parser = new as2j(reader);
 		Plan plan = parser.plan();
-		Trigger trigger = plan.getTriggerEvent();
+		Trigger trigger = plan.getTrigger();
 		
 		if(un.unifies(triggerTerm, trigger.getLiteral())) {
 			triggerTerm.apply(un);

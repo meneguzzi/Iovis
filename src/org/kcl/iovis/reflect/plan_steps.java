@@ -1,21 +1,18 @@
 package org.kcl.iovis.reflect;
 
-import java.io.StringReader;
-import java.util.List;
-import java.util.logging.Logger;
-
 import jason.asSemantics.DefaultInternalAction;
 import jason.asSemantics.TransitionSystem;
 import jason.asSemantics.Unifier;
-import jason.asSyntax.BodyLiteral;
 import jason.asSyntax.ListTerm;
 import jason.asSyntax.ListTermImpl;
-import jason.asSyntax.Literal;
 import jason.asSyntax.Plan;
 import jason.asSyntax.PlanBody;
 import jason.asSyntax.StringTerm;
 import jason.asSyntax.Term;
 import jason.asSyntax.parser.as2j;
+
+import java.io.StringReader;
+import java.util.logging.Logger;
 
 /**
 <p>Internal action: <b><code>.plan_steps</code></b>.
@@ -34,6 +31,10 @@ import jason.asSyntax.parser.as2j;
 */
 public class plan_steps extends DefaultInternalAction {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static final Logger logger = Logger.getLogger(DefaultInternalAction.class.getName());
 
 	@Override
