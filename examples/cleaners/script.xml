@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- A script containing perception events to be posted at each "tick" from
+	the environment in the MotivationTestEnvironment class.
+	Time is assumed to start at 0, which is the moment the environment class
+	is instantiated. -->
+<script>
+	<step time="0">
+		//Testing obligations
+		norm(time(4), day(xmas), obligation(clean(room1)),[]).
+	</step>
+	
+	<step time="2">
+		//Cleaning should start
+		time(4).
+	</step>
+	
+	<step time="4">
+		norm(time(6), day(xmas), prohibition(at(classifRoom)),[]).
+	</step>
+	
+	<step time="6">
+		time(6).
+	</step>
+	
+	<step time="8">
+		cleanClassif.
+	</step>
+	
+	<step time="50">
+		endSimulation.
+	</step>
+</script>

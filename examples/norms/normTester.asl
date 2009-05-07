@@ -1,4 +1,4 @@
-{include("iovis.asl")}
+{include("../../src/org/kcl/iovis/iovis.asl")}
 
 /*+time(X) : true
    <- !print("Time ",X).*/

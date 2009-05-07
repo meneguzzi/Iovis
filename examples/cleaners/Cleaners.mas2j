@@ -7,7 +7,5 @@ MAS iovis {
 
 	agents: 
 		cleaner;
-		trustedCleaner;
-		putsAgent;
 		
 }

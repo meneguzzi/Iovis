@@ -46,7 +46,7 @@
 	<!-- ================================= 
           target: run              
          ================================= -->
-	<target name="run" depends="init" description="--> Build file for the Normative AgentSpeak(L) project">
+	<target name="run" depends="compile" description="--> Build file for the Normative AgentSpeak(L) project">
 		<property name="project.file" value="IovisNormTest.mas2j" />
 		<java dir="examples/norms" classname="jason.infra.centralised.RunCentralisedMAS" failonerror="true" fork="yes">
 			<classpath refid="project.classpath" />
@@ -56,10 +56,23 @@
 	</target>
 
 	<!-- ================================= 
+          target: run-cleaners              
+         ================================= -->
+	<target name="run-cleaners" depends="compile" description="Runs the cleaners example">
+		<property name="project.file" value="Cleaners.mas2j" />
+		<java dir="examples/cleaners" classname="jason.infra.centralised.RunCentralisedMAS" failonerror="true" fork="yes">
+			<classpath refid="project.classpath" />
+			<jvmarg line="-Djava.library.path='${library.path}'" />
+			<arg line="${project.file} ${debug}" />
+		</java>
+	</target>
+
+
+	<!-- ================================= 
 		  target: dist              
 		 ================================= -->
 	<target name="dist" depends="jar,clean" description="Creates a zip for distribution">
-		<delete file="${dist.file}"/>
+		<delete file="${dist.file}" />
 		<zip destfile="${dist.file}">
 			<fileset dir="${basedir}">
 				<include name="**/*" />

@@ -1,4 +1,4 @@
-{include("print.asl")}
+//{include("print.asl")}
 
 logging(true).
 
@@ -7,10 +7,10 @@ logging(true).
       !processNorm(Start, End, Norm, Options).
       
 +?acceptNorm(Start, End, obligation(Obligation), Options, Src) : true
-	<- !print("Accepting obligation to ", Obligation, " from ", Src).
+	<- .print("Accepting obligation to ", Obligation, " from ", Src).
 
 +?acceptNorm(Start, End, prohibition(Prohibition), Options, Src) : true
-	<- !print("Accepting prohibition to ", Prohibition, " from ", Src).
+	<- .print("Accepting prohibition to ", Prohibition, " from ", Src).
 	
 +!processNorm(Start, End, Norm, Options) : ignoreNorms
    <- //add some content
@@ -18,31 +18,31 @@ logging(true).
 
 //Action obligation
 +!processNorm(Start, End, obligation(Obligation), Options) : org.kcl.iovis.reflect.action(Obligation)
-   <- !print("Adding action obligation");
+   <- .print("Adding action obligation");
       !addActionObligationStartCondition(Start, Obligation, Options);
       !addActionObligationEndCondition(End, Obligation, Options);
       //.add_plan([OPlan,EPlan]);
-      !print("Norm ",obligation(Obligation)," added").
+      .print("Norm ",obligation(Obligation)," added").
 
 //We have three cases for the start condition of each obligation type
 
 //The start condition is already true, in which case the obligation should
 //be carried out immediately
 +!addActionObligationStartCondition(Start, Obligation, Options) : Start
-   <- !print("Executing action for obligation ", Obligation);
+   <- .print("Executing action for obligation ", Obligation);
       !addActionObligationStartCondition(now, Obligation, Options);
       +now;
       -now;
-      !print("Executed action for obligation ", Obligation).
+      .print("Executed action for obligation ", Obligation).
 
 //The obligation is impossible, so I should ignore it
 //******************* Not sure how to prove this, simply false now
 +!addActionObligationStartCondition(false, Obligation, Options) : true
-   <- !print("Obligation to ", Obligation, " is impossible.").
+   <- .print("Obligation to ", Obligation, " is impossible.").
 
 //The obligation is not yet true, so I should add the plan to react to it
 +!addActionObligationStartCondition(Start, Obligation, Options) : not Start
-   <- !print("Adding plan for start of obligation to ", Obligation);
+   <- .print("Adding plan for start of obligation to ", Obligation);
       act.plan_puts("@obligationStart(#{Obligation}) ",
                     "+#{Start} : true <- #{Obligation}.",
                     OPlan);
@@ -59,11 +59,11 @@ logging(true).
 //The Obligation will never end, so no need to add a plan to handle this
 //******************* Not sure how to prove this, simply false now
 +!addActionObligationEndCondition(false, Obligation, Options) : true
-   <- !print("Obligation to ", Obligation, " never ends.").
+   <- .print("Obligation to ", Obligation, " never ends.").
 
 //The end condition is not yet true, so we should add a plan to handle this
 +!addActionObligationEndCondition(End, Obligation, Options) : not End
-   <- !print("Adding plan for end of obligation to ", Obligation);
+   <- .print("Adding plan for end of obligation to ", Obligation);
       Message = "Removing Plan";//Workaround for weird string manipulation
       act.plan_puts("@obligationEnd(#{Obligation}) ",
                     "+#{End} : true <- .print(#{Message});",
@@ -86,24 +86,23 @@ logging(true).
 //Proposition obligation
 +!processNorm(Start, End, obligation(Obligation), Options) 
 	: .literal(Obligation)
-	<- !print("Adding literal obligation");
-      !addLiteralObligationStartCondition(Start, Obligation, Options);
-      !addLiteralObligationEndCondition(End, Obligation, Options);
-      //.add_plan([OPlan,EPlan]);
-      .print("Norm ",obligation(Obligation)," added").
+	<- .print("Adding literal obligation");
+        !addLiteralObligationStartCondition(Start, Obligation, Options);
+        !addLiteralObligationEndCondition(End, Obligation, Options);
+        .print("Norm ",obligation(Obligation)," added").
 
 
 //Same song second time
 //If the start condition is already true, execute the plan
 +!addLiteralObligationStartCondition(Start, Obligation, Options) : Start
-   <- !print("Executing literal for obligation");
+   <- .print("Executing literal for obligation");
       !goalConj([Obligation]).
 
 +!addLiteralObligationStartCondition(false, Obligation, Options) : true
-   <- !print("Obligation to ", Obligation, " is impossible.").
+   <- .print("Obligation to ", Obligation, " is impossible.").
    
 +!addLiteralObligationStartCondition(Start, Obligation, Options) : not Start
-   <- !print("Adding plan for start of obligation to ", Obligation);
+   <- .print("Adding plan for start of obligation to ", Obligation);
       act.plan_puts("@obligationStart(#{Obligation})",
                     "+#{Start} : not #{Obligation}",
                     " <- !goalConj([#{Obligation}]).",
@@ -115,10 +114,10 @@ logging(true).
    <- .remove_plan(obligationStart(Obligation)).
 
 +!addLiteralObligationEndCondition(false, Obligation, Options) : true
-   <- !print("Obligation to ", Obligation, " never ends.").
+   <- .puts("Obligation to ", Obligation, " never ends.").
 
 +!addLiteralObligationEndCondition(End, Obligation, Options) : not End
-   <- !print("Adding plan for end of obligation to ", Obligation);
+   <- .print("Adding plan for end of obligation to ", Obligation);
       Message = "Removing Plan";//Workaround for weird string manipulation
       act.plan_puts("@obligationEnd(#{Obligation})",
                     "+#{End} : true <- .print(#{Message});",
@@ -144,7 +143,8 @@ logging(true).
 //Action Prohibition
 +!processNorm(Start, End, prohibition(Prohibition), Options) 
 	: org.kcl.iovis.reflect.action(Prohibition)
-	<- act.plan_puts("@prohibitionStart(#{Prohibition})",
+	<- .print("Adding action prohibition");
+	   act.plan_puts("@prohibitionStart(#{Prohibition})",
 	                 "+#{Start} : true <- ",
 	                 "?findPlansWithAction(#{Prohibition}, SelectedPlans);",
 	                 "!suppressPlans(SelectedPlans);",
@@ -177,7 +177,8 @@ logging(true).
 //Proposition Prohibition
 +!processNorm(Start, End, prohibition(Prohibition), Options) 
 	: .literal(Prohibition)
-	<- act.plan_puts("@prohibitionStart(#{Prohibition})",
+	<- .print("Adding literal obligation");
+	   act.plan_puts("@prohibitionStart(#{Prohibition})",
 	                 "+#{Start} : true <- ",
 	                 "?findPlansWithEffect(#{Prohibition},SelectedPlans);",
 	                 "!suppressPlans(SelectedPlans);",
